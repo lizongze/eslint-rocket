@@ -5,9 +5,8 @@
   "main": "index.js",
   "scripts": {
     "install": "node install.js",
-    "postinstall1": "node install.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "uninstall": "echo uninstall success"
+    "uninstall1": "echo uninstall success"
   },
   "repository": {
     "type": "git",
