@@ -1,11 +1,14 @@
 # "eslint-rocket": "sh node_modules/eslint-rocket/run.sh",
 # "eslint-fresh": "sh node_modules/eslint-rocket/fresh.sh",
 cwd=`pwd`
-echo "'pwd'$cwd"
+echo "pwd $cwd"
 
 dir=`git rev-parse --show-toplevel`
 echo dir $dir
-cd $dir
+# cd $dir
+cd ..
+cd ..
+echo "pwd $(pwd)"
 
 t1=`printf '    '`;
 
