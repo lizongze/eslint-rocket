@@ -1,7 +1,7 @@
 {
   "name": "eslint-rocket",
   "version": "1.1.0",
-  "description": "eslint rocket fast faster fastest speed super parallel Multi Processing Multi Threading",
+  "description": "eslint rocket fast faster fastest speed super parallel Multi Processing Multi Threading git diff algorithm between commit",
   "main": "index.js",
   "scripts": {
     "install": "sh install.sh",
@@ -24,7 +24,8 @@
     "Processing",
     "Multi",
     "Threading",
-    "cached",
+	"cached",
+	"git",
     "diff",
     "algorithm",
     "between",
