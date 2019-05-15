@@ -33,8 +33,11 @@ childProcess.execAsync(cmd)
   console.log('代码检测中...');
 
   const promiseList = workerList.map((idx) => {
-    const params = ['--cache', '--cache-location', `./.lib_cache/eslint/.${isSuperLint ? 'eslint' : branch}-${taskType}${idx}.cache`].concat(groupedFiles[idx]);
-    const ret = spawnAsync('./node_modules/.bin/eslint', params, { stdio: 'inherit' });
+	let ret;
+	if (groupedFiles[idx]) {
+	  const params = ['--cache', '--cache-location', `./.lib_cache/eslint/.${isSuperLint ? 'eslint' : branch}-${taskType}${idx}.cache`].concat(groupedFiles[idx]).filter(v => v);
+	  ret = spawnAsync('./node_modules/.bin/eslint', params, { stdio: 'inherit' });
+	}
     return ret;
   });
 

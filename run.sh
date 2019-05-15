@@ -27,7 +27,7 @@ touch $masterIdFile
 # lastId=$(cat $idCacheFile  2>/dev/null | grep commitId | sed 's/commitId //')
 lastId=`sed -n 1p $idCacheFile | sed 's/commitId //'`
 commitId=$(git log -1 | head -1 | sed 's/commit //' | cut -b 1-6);
-task='git ls-files | grep .[tj]sx* | grep src'
+task='git ls-files | grep [^d].[tj]sx*$ | grep src'
 eslintcacheFile="./.lib_cache/eslint/.${branch}-${idx}.cache"
 
 getCacheName() {
@@ -46,12 +46,12 @@ cpTask() {
 #--------main--------------
 # check if has last cached id
 if [ "$lastId" ]; then
-  task="git diff --name-only $lastId $commitId | grep '\.[tj]sx*' | grep src"
+  task="git diff --name-only $lastId $commitId | grep '\[^d].[tj]sx*$' | grep src"
   node "$root/filesWorker.js" $cpus "$task"
 else
   lastMasterId=`sed -n 1p $masterIdFile | sed 's/commitId //'`
   if [ "$lastMasterId" ]; then
-    task="git diff --name-only $lastMasterId $commitId | grep '\.[tj]sx*' | grep src"
+    task="git diff --name-only $lastMasterId $commitId | grep '\[^d].[tj]sx*$' | grep src"
     node "$root/filesWorker.js" $cpus "$task"
   else
     # if no cached id, copy cached file from master
