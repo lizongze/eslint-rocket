@@ -4,7 +4,7 @@
   "description": "eslint rocket fast faster fastest speed super parallel Multi Processing Multi Threading",
   "main": "index.js",
   "scripts": {
-    "install": "node install.js",
+    "install": "sh install.sh",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
