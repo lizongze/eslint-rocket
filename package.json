@@ -3,7 +3,7 @@
   "version": "1.0.1-alpha.1",
   "description": "eslint rocket fast faster fastest speed super parallel Multi Processing Multi Threading",
   "main": "index.js",
-  "install": "sh intall.sh",
+  "install": "sh install.sh",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
