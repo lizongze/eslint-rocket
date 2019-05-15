@@ -46,12 +46,12 @@ cpTask() {
 #--------main--------------
 # check if has last cached id
 if [ "$lastId" ]; then
-  task="git diff --name-only $lastId $commitId | grep '\[^d].[tj]sx*$' | grep src"
+  task="git diff --name-only $lastId $commitId | grep '[^d].[tj]sx*$' | grep src"
   node "$root/filesWorker.js" $cpus "$task"
 else
   lastMasterId=`sed -n 1p $masterIdFile | sed 's/commitId //'`
   if [ "$lastMasterId" ]; then
-    task="git diff --name-only $lastMasterId $commitId | grep '\[^d].[tj]sx*$' | grep src"
+    task="git diff --name-only $lastMasterId $commitId | grep '[^d].[tj]sx*$' | grep src"
     node "$root/filesWorker.js" $cpus "$task"
   else
     # if no cached id, copy cached file from master
