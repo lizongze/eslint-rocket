@@ -1,5 +1,5 @@
 # eslint-rocket
-eslint rocket fast faster fastest speed super parallel Multi Processing Multi Threading
+eslint rocket fast faster fastest speed super parallel Multi Processing Multi Threading git diff algorithm between commit
 
 # install
 sometimes, you need append the follow into scripts in package.json, such as rush package manager.
