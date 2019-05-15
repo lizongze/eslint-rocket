@@ -9,4 +9,3 @@ spawnAsync('sh', [`${pwd}/node_modules/eslint-rocket/run.sh`, pwd], { stdio: 'in
 	.catch(() => {
 		process.exit(1);
 	})
-
