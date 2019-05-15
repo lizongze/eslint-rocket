@@ -12,7 +12,7 @@ echo "pwd $(pwd)"
 
 t1=`printf '    '`;
 
-cat package.json | grep -q \"eslint-fresh\":
+cat package.json | grep -q '"eslint-fresh": "sh'=
 res=$?
 if [[ 0 -ne $res ]]; then
 	sed -i '' "/\"scripts\":/ a\\
@@ -21,7 +21,7 @@ if [[ 0 -ne $res ]]; then
 	sed -i "" $"s/tt-tt/$t1/g" package.json
 fi
 
-cat package.json | grep -q \"eslint-rocket\":
+cat package.json | grep -q '"eslint-rocket": "sh'
 res=$?
 if [[ 0 -ne $res ]]; then
 	sed -i '' "/\"scripts\":/ a\\
