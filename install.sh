@@ -16,16 +16,16 @@ cat package.json | grep -q \"eslint-fresh\":
 res=$?
 if [[ 0 -ne $res ]]; then
 	sed -i '' "/\"scripts\":/ a\\
-		t-t\"eslint-fresh\": \"sh node_modules/eslint-rocket/fresh.sh\",
+		tt-tt\"eslint-fresh\": \"sh node_modules/eslint-rocket/fresh.sh\",
 	" package.json
-	sed -i "" $"s/t-t/$t1/g" package.json
+	sed -i "" $"s/tt-tt/$t1/g" package.json
 fi
 
 cat package.json | grep -q \"eslint-rocket\":
 res=$?
 if [[ 0 -ne $res ]]; then
 	sed -i '' "/\"scripts\":/ a\\
-		t-t\"eslint-rocket\": \"sh node_modules/eslint-rocket/run.sh\",
+		tt-tt\"eslint-rocket\": \"sh node_modules/eslint-rocket/run.sh\",
 	" package.json
-	sed -i "" $"s/t-t/$t1/g" package.json
+	sed -i "" $"s/tt-tt/$t1/g" package.json
 fi
