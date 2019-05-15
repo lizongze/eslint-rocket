@@ -1,13 +1,13 @@
 {
   "name": "eslint-rocket",
-  "version": "1.0.1-alpha.4",
+  "version": "1.0.1-alpha.5",
   "description": "eslint rocket fast faster fastest speed super parallel Multi Processing Multi Threading",
   "main": "index.js",
   "scripts": {
-	"install": "node install.js",
-	"postinstall": "node install.js",
-	"test": "echo \"Error: no test specified\" && exit 1",
-	"uninstall": "echo uninstall success"
+    "install": "node install.js",
+    "postinstall": "node install.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "uninstall": "echo uninstall success"
   },
   "repository": {
     "type": "git",
