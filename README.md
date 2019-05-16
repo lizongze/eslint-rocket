@@ -13,6 +13,7 @@ you can try to exec the follow cmd to feel:
 	npm run eslint-rocket
 	npm run eslint-fresh
 	npm run eslint-blame
+	npm run eslint-blame [author]
 
 # problems
 if you find it slow in sometimes, you can try "npm run eslint-fresh" to fresh the begin commit id which works when eslint in a new branch
