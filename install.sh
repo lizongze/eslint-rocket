@@ -8,8 +8,12 @@ echo "pwd $cwd"
 dir=`git rev-parse --show-toplevel`
 echo dir $dir
 # cd $dir
-cd ..
-cd ..
+
+if [[ "$cwd" != "$dir" ]]; then
+	cd ..
+	cd ..
+fi
+
 echo "pwd $(pwd)"
 
 t1=`printf '    '`;
@@ -39,4 +43,17 @@ if [[ 0 -ne $res ]]; then
 		tt-tt\"eslint-rocket\": \"sh node_modules/eslint-rocket/run.sh\",
 	" package.json
 	sed -i "" $"s/tt-tt/$t1/g" package.json
+fi
+
+cat .gitignore | grep -q '.lib_cache'
+res=$?
+if [[ 0 -ne $res ]]; then
+
+	sed -i '' -e "$ a\\
+	# eslint-rocket
+	" .gitignore
+
+	sed -i '' -e "$ a\\
+	.lib_cache
+	" .gitignore
 fi

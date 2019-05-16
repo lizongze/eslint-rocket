@@ -18,9 +18,9 @@ const taskMap = {};
 
 function main(authorName) {
   try {
-	execSync(`cd ${pwd}; npm run eslint-rocket > .eslintstatus 2>/dev/null`);
+	execSync(`cd ${pwd}; npm run eslint-rocket > .lib_cache/eslint/.eslintstatus 2>/dev/null`);
   } catch (e) {
-    const result = fs.readFileSync('.eslintstatus', 'utf8');
+    const result = fs.readFileSync('.lib_cache/eslint/.eslintstatus', 'utf8');
     const reNum = /(\d+):\d+/;
 	const reAuthor = /^\^?\w+\s\(([^\s]+)\s/;
 
