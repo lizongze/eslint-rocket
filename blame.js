@@ -16,9 +16,9 @@ const pwd = process.env.PWD;
 const errorTaskLine = [];
 const taskMap = {};
 
-function main(authorName) {
+function main(authorName, cmdTask = 'npm run eslint-rocket') {
   try {
-	execSync(`cd ${pwd}; npm run eslint-rocket > .lib_cache/eslint/.eslintstatus 2>/dev/null`);
+	execSync(`cd ${pwd}; ${cmdTask} > .lib_cache/eslint/.eslintstatus 2>/dev/null`);
   } catch (e) {
     const result = fs.readFileSync('.lib_cache/eslint/.eslintstatus', 'utf8');
     const reNum = /(\d+):\d+/;
@@ -176,4 +176,4 @@ function main(authorName) {
 }
 
 const argv = process.argv;
-main(argv[2]);
+main(argv[2], argv[3]);
