@@ -1,17 +1,31 @@
 time=$(date +%s)
 
+sedPrefix=""
+
+sed -i "" "" package.json 2>/dev/null
+win=$?
+[[ 0 -ne $win ]] && sedPrefix='""'
+
+echo win $win
+
 cwd=`pwd`
 if [[ "$1" ]]; then
 	cwd=$1
 fi
 cd $cwd
 
-root="$cwd/node_modules/eslint-rocket"
+echo pwd `pwd`
 
-cpus=`sysctl hw.logicalcpu | uniq | sed 's/hw.logicalcpu: //'`
+root="$cwd/node_modules/eslint-rocket"
+[[ ! -f $root ]] && root="./"
+echo root $root 
+
+cpus=`sysctl hw.logicalcpu | uniq | sed 's/hw.logicalcpu: //'; res=$?`
+sysctl hw.logicalcpu
 res=$?
+echo res $res cpu
 if [[ 0 -ne $res ]]; then
-	cpus=`cat /proc/cpuinfo| grep "cpu cores" | uniq`
+  cpus=`cat /proc/cpuinfo | grep "processor"| wc -l`
 fi
 echo "cpu num: $cpus"
 let cpus--
@@ -19,6 +33,7 @@ let cpus--
 mkdir .lib_cache 2>/dev/null
 mkdir .lib_cache/eslint 2>/dev/null
 branch=$(git rev-parse --abbrev-ref HEAD);
+echo branch $branch
 idCacheFile=".lib_cache/eslint/.$branch.cache"
 masterIdFile=".lib_cache/eslint/.master.cache"
 [ ! -f $idCacheFile ] && cp ".lib_cache/eslint/.master.cache" $idCacheFile 2>/dev/null
@@ -74,8 +89,8 @@ if [ 0 -eq $err ]; then
     echo commitId $commitId > $idCacheFile;
     cpTask $cpus $branch master
   else
-    sed -i '' '1 i\
-      commitId '$commitId'
+    sed -i $sedPrefix '1 i\
+commitId '$commitId'
       ' $idCacheFile
   fi
 fi
