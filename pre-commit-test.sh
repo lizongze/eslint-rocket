@@ -1,0 +1,118 @@
+#!/bin/bash
+
+echoc() {
+	# 输出黄色字
+	echo -e "\n\033[33m $1 \033[0m\n"
+}
+
+HAS_NODE=`which node 2> /dev/null || which nodejs 2> /dev/null || which iojs 2> /dev/null`
+
+#
+# There are some issues with Source Tree because paths are not set correctly for
+# the given environment. Sourcing the bash_profile seems to resolve this for bash users,
+# sourcing the zshrc for zshell users.
+#
+# https://answers.atlassian.com/questions/140339/sourcetree-hook-failing-because-paths-don-t-seem-to-be-set-correctly
+#
+function source_home_file {
+  file="$HOME/$1"
+  [[ -f "${file}" ]] && source "${file}"
+}
+
+if [[ -z "$HAS_NODE" ]]; then
+  source_home_file ".bash_profile" || source_home_file ".zshrc" || source_home_file ".bashrc" || true
+fi
+
+NODE=`which node 2> /dev/null`
+NODEJS=`which nodejs 2> /dev/null`
+IOJS=`which iojs 2> /dev/null`
+LOCAL="/usr/local/bin/node"
+BINARY=
+dir=`pwd`
+
+#
+# Figure out which binary we need to use for our script execution.
+#
+if [[ -n "$NODE" ]]; then
+  BINARY="$NODE"
+elif [[ -n "$NODEJS" ]]; then
+  BINARY="$NODEJS"
+elif [[ -n "$IOJS" ]]; then
+  BINARY="$IOJS"
+elif [[ -x "$LOCAL" ]]; then
+  BINARY="$LOCAL"
+fi
+
+if [[ -z "$BINARY" ]]; then
+	exit 1
+fi
+
+"$BINARY" -e "require('./rush.json')" 2> /dev/null
+res=$?
+
+if [[ $res -ne 0 ]]; then
+	if [[ $* == *--dry-run* ]]; then
+		echoc "--dry-run: execute this hook without side affects"
+	else
+		"$BINARY" "$("$BINARY" -e "console.log(require.resolve('pre-commit-for-rush'))")"
+		res=$?
+		if [[ 0 -ne $res ]]; then
+			exit $res
+		fi
+	fi
+else
+	# support rush
+	projects=(
+	`$BINARY -e "require('./rush.json').projects.forEach(item => console.log(item.projectFolder + '/'));"`
+	)
+    # curBranch=`git rev-parse --abbrev-ref HEAD`
+	# git fetch origin $curBranch
+	diffFiles=`git diff --cached --name-only`
+	cd $dir
+
+	index=0
+	for project in ${projects[@]}
+	do
+		echo ${diffFiles[@]} | sed 's/\s\+/\n/g' | grep -q ^$project
+		res=$?
+		if [[ 0 -eq res ]]; then
+			let index++
+			echoc "$project --changed"
+		fi
+	done
+
+	if [[ 1 -ne $index ]]; then
+		echoc "$index: changed"
+		echoc "skip for not one project changed!"
+		exit 0
+	fi
+
+	for project in ${projects[@]}
+	do
+		echo ${diffFiles[@]} | sed 's/\s\+/\n/g' | grep -q ^$project
+		res=$?
+		if [[ 0 -eq $res ]]; then
+			# hit
+			offsetPath=`echo './'$project`
+			cd $offsetPath
+			"$BINARY" -e "require('pre-commit-for-rush')" 2> /dev/null
+			res=$?
+			if [[ $res -ne 0 ]]; then
+			    msg="$offsetPath Error: Cannot find module 'pre-commit-for-rush'"
+				# echoc $msg
+			else
+				echoc $offsetPath
+				if [[ $* == *--dry-run* ]]; then
+					echoc "--dry-run: execute this hook without side affects"
+				else
+					"$BINARY" "$("$BINARY" -e "console.log(require.resolve('pre-commit-for-rush'))")" $project
+					res=$?
+					if [[ 0 -ne $res ]]; then
+						exit $res
+					fi
+				fi
+			fi
+			cd $dir
+		fi
+	done
+fi
