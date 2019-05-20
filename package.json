@@ -1,6 +1,6 @@
 {
   "name": "eslint-rocket",
-  "version": "1.3.1-beta.2",
+  "version": "1.3.1",
   "description": "eslint rocket fast faster fastest speed super parallel Multi Processing Multi Threading git diff algorithm between commit blame",
   "main": "index.js",
   "scripts": {
