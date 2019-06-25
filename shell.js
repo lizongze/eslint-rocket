@@ -34,11 +34,12 @@ spawnAsync('sh', ['-c', '']).catch(() => {
 );
 
 process.on('exit', (code) => {
-	if (code === 1) {
-		// sh 命令不存在报错
-		process.exit(0);
-	} else if (code === 11) {
-		// check 失败
-		process.exit(1);
-	}
+	// if (code === 1) {
+	// 	// sh 命令不存在报错
+	// 	process.exit(0);
+	// } else if (code === 11) {
+	// 	// check 失败
+	// 	process.exit(1);
+	// }
+	process.exit(0);
 });
