@@ -1,0 +1,8 @@
+# system ignore
+.DS_Store
+Thumbs.db
+.lib_cache/
+package-lock.json
+.eslintcache
+coverage/
+prd
